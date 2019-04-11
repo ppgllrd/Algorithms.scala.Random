@@ -21,14 +21,6 @@ object Test extends App {
     val x = rnd.nextInt()
   }
 
-  val t0 = System.currentTimeMillis()
-  for(_ <- 0 until 4) {
-    for (i <- 0 until 500000000) {
-      val x = rnd.nextInt(5)
-    }
-  }
-  val t1 = System.currentTimeMillis()
-  println(t1-t0)
 }
 
 
