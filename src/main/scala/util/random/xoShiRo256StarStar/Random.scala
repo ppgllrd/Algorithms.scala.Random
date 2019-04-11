@@ -50,9 +50,9 @@ object Random {
 /**
   * @param seed seed for this pseudorandom generator
   * @return a new pseudorandom generator with provided {@code seed}.
-  *          Different pseudorandom generators with same seeds will produce
-  *          same pseudorandom sequences of values.
-  *          Different pseudorandom generators with different seeds will very
+  *         Different pseudorandom generators with same seeds will produce
+  *         same pseudorandom sequences of values.
+  *         Different pseudorandom generators with different seeds will very
   *         likely produce different pseudorandom sequences of values.
   */
 class Random(seed: Long) extends util.random.RandomOps {
@@ -88,8 +88,8 @@ class Random(seed: Long) extends util.random.RandomOps {
     * Returns a uniformly distributed pseudorandom {@code Long}
     * value.
     *
-    * @return a uniformly distributed pseudorandom { @code Long}
-    *                                                      value
+    * @return a uniformly distributed pseudorandom {@code Long}
+    *         value
     */
   def nextLong(): Long = {
     var result = s1 + (s1 << 2)
@@ -122,8 +122,8 @@ class Random(seed: Long) extends util.random.RandomOps {
     * value in range [0,{@code n})
     *
     * @param n exclusive upper bound of range
-    * @return a uniformly distributed pseudorandom { @code Long}
-    *                                                      from 0 (inclusive) to { @code n} (exclusive)
+    * @return a uniformly distributed pseudorandom {@code Long}
+    *         from 0 (inclusive) to {@code n} (exclusive)
     */
   def nextLong(n: Long): Long = {
     if (n <= 0)
@@ -135,9 +135,9 @@ class Random(seed: Long) extends util.random.RandomOps {
     * Returns a uniformly distributed pseudorandom {@code Int}
     * value in range [{@code Int.MinValue}, {@code Int.MaxValue}]
     *
-    * @return a uniformly distributed pseudorandom { @code Int}
-    *                                                      value from { @code Int.MinValue} (inclusive) to
-    *                                                      { @code Int.MaxValue} (inclusive)
+    * @return a uniformly distributed pseudorandom {@code Int}
+    *         value from {@code Int.MinValue} (inclusive) to
+    *         {@code Int.MaxValue} (inclusive)
     */
   def nextInt(): Int =
     nextLong().toInt
@@ -147,8 +147,8 @@ class Random(seed: Long) extends util.random.RandomOps {
     * value in range [0,{@code n})
     *
     * @param n exclusive upper bound of range
-    * @return a uniformly distributed pseudorandom { @code Int}
-    *                                                      from 0 (inclusive) to { @code n} (exclusive)
+    * @return a uniformly distributed pseudorandom {@code Int}
+    *         from 0 (inclusive) to {@code n} (exclusive)
     */
   def nextInt(n: Int): Int = {
     if (n <= 0)
@@ -160,8 +160,8 @@ class Random(seed: Long) extends util.random.RandomOps {
     * Returns a uniformly distributed pseudorandom {@code Double}
     * value in range [0.0,1.0)
     *
-    * @return a uniformly distributed pseudorandom { @code Double}
-    *                                                      from 0.0 (inclusive) to 1.0 (exclusive)
+    * @return a uniformly distributed pseudorandom {@code Double}
+    *         from 0.0 (inclusive) to 1.0 (exclusive)
     */
   def nextDouble(): Double =
     (nextLong() >>> 11) * Random.DOUBLE_UNIT
@@ -173,8 +173,8 @@ class Random(seed: Long) extends util.random.RandomOps {
     * Returns a uniformly distributed pseudorandom {@code Float}
     * value in range [0.0,1.0)
     *
-    * @return a uniformly distributed pseudorandom { @code Float}
-    *                                                      from 0.0 (inclusive) to 1.0 (exclusive)
+    * @return a uniformly distributed pseudorandom {@code Float}
+    *         from 0.0 (inclusive) to 1.0 (exclusive)
     */
   def nextFloat(): Float =
     (nextLong() >>> 40) * Random.FLOAT_UNIT
@@ -184,10 +184,9 @@ class Random(seed: Long) extends util.random.RandomOps {
     * value. {@code true} and {@code false} are produced with equal
     * probabilities
     *
-    * @return a uniformly distributed pseudorandom { @code Boolean}
-    *                                                      value.
+    * @return a uniformly distributed pseudorandom {@code Boolean}
+    *         value.
     */
   def nextBoolean(): Boolean =
     nextLong() < 0
-
 }

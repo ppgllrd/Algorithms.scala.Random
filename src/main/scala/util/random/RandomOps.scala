@@ -138,7 +138,7 @@ trait RandomOps {
     * with probability of success 0.5
     *
     * @return {@code true} with probability 0.5 and
-    *                 {@code false} with probability 0.5
+    *         {@code false} with probability 0.5
     */
   def bernoulli(): Boolean = {
     nextDouble() < 0.5
@@ -153,7 +153,7 @@ trait RandomOps {
     *
     * @param p probability of success. Must be in [0.0,1.0]
     * @return {@code true} with probability {@code p} and
-    *                 {@code false} with probability 1 - {@code p}
+    *         {@code false} with probability 1 - {@code p}
     */
   def bernoulli(p: Double): Boolean = {
     if (p < 0.0 || p > 1.0)
@@ -197,8 +197,8 @@ trait RandomOps {
   def gaussian(): Double = {
     /**
       * Joseph L. Leva's algorithm
-      * A fast normal random number generator
-      *  ACM Transactions on Mathematical Software 18(4):449-453.
+      * A fast normal random number generator.
+      * ACM Transactions on Mathematical Software 18(4):449-453.
       * December 1992
       *
       */
@@ -228,4 +228,3 @@ trait RandomOps {
   def gaussian(mu: Double, sigma: Double): Double =
     mu + sigma * gaussian()
 }
-
