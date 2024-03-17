@@ -1,44 +1,59 @@
-import util.random.xoShiRo256StarStar.Random
+import util.random.xoshiro256StarStar.Random
 
-object TestFreqs extends App {
+@main def TestFrequencies(): Unit =
   val n = 6
-  val counters = new Array[Int](n)
+  val frequencies = new Array[Int](n)
 
   val total = 100000000
   val rnd = Random(0)
-  for(i <- 0 until total)
-    counters(rnd.nextInt(n)) += 1
+  for _ <- 0 until total do
+    frequencies(rnd.nextInt(n)) += 1
 
-  val freqs = counters.map(_.toDouble / total)
-
-  println(freqs.mkString(" "))
-}
-
-object Test extends App {
-  val rnd = Random(0)
-
-  for(i <- 0 until 500000000) {
-    val x = rnd.nextInt()
-  }
-
-}
+  val relativeFrequencies = frequencies.map(_.toDouble / total)
+  println(relativeFrequencies.mkString(" "))
 
 
-object TestGauss extends App {
+@main def TestGauss(): Unit =
   val rnd = Random()
-  var sz = 1000000000
+  val samples = 1000000000
 
-  var s = 0.0
-  var sSqr = 0.0
-  for(i <- 0 until sz) {
+  var sum = 0.0
+  var sumSquare = 0.0
+  timed(() =>
+  for _ <- 0 until samples do
     val n = rnd.gaussian(5, 1) // (0, 1)
-    // println(n)
-    s += n
-    sSqr += n*n
-  }
+    sum += n
+    sumSquare += n * n
+  )
+  val mu = sum / samples
+  val sigma = math.sqrt((sumSquare - samples*mu*mu) / samples)
+  println(s"$mu, $sigma")
 
-  val mu = s / sz
-  val sigma = math.sqrt((sSqr - sz*mu*mu)/ sz)
-  println(mu, sigma)
 
-}
+def timed(p: () => Unit): Unit =
+  val start = System.currentTimeMillis()
+  p()
+  val end = System.currentTimeMillis()
+  println(s"Elapsed time: ${end - start} ms")
+
+val runs = 1000000000
+
+@main def TestXoShiRo256StarStar(): Unit =
+  val rnd = util.random.xoshiro256StarStar.Random(0)
+  timed(() =>
+    for _ <- 0 until runs do
+      val x = rnd.nextInt()
+  )
+
+@main def TestScalaUtil(): Unit =
+  val rnd = scala.util.Random(0)
+
+  timed(() =>
+    for _ <- 0 until runs do
+      val x = rnd.nextInt()
+  )
+
+@main def TestFloat(): Unit =
+  val rnd = Random(0)
+  for _ <- 1 to 10 do
+    println(rnd.nextFloat())

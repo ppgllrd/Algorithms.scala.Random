@@ -1,7 +1,9 @@
-name := "Random"
+ThisBuild / version := "0.2"
 
-version := "0.1"
+ThisBuild / scalaVersion := "3.3.0"
 
-scalaVersion := "2.12.4"
+lazy val root = (project in file("."))
+  .settings(
+    name := " Algorithms.scala.Random"
+  )
 
-scalacOptions += "-optimize"
