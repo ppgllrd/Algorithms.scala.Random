@@ -57,3 +57,8 @@ val runs = 1000000000
   val rnd = Random(0)
   for _ <- 1 to 10 do
     println(rnd.nextFloat())
+
+@main def TestLong(): Unit =
+  val rnd = Random(1)
+  for _ <- 1 to 10 do
+    println(rnd.nextLong())

@@ -790,7 +790,7 @@ trait RandomOps:
    */
   def shuffleInPlace[A](seq: scala.collection.mutable.Seq[A]): Unit =
     val l = seq.length
-    for i <- 0 until l do
+    for i <- 0 until l - 1 do
       val j = i + mixedNextLong(l - i).toInt
       val tmp = seq(i)
       seq(i) = seq(j)
