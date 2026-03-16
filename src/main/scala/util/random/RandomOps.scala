@@ -125,13 +125,12 @@ trait RandomOps:
     mixedNextLong() < 0
 
   /**
-   * Returns a uniformly distributed pseudorandom `Int` value in range [0,`n`)
+   * Returns a uniformly distributed pseudorandom `Int` value in range
+   * [`Int.MinValue`, `Int.MaxValue`]
    *
-   * @param n
-   *   exclusive upper bound of range
    * @return
-   *   a uniformly distributed pseudorandom Int from 0 (inclusive) to `n`
-   *   (exclusive)
+   *   a uniformly distributed pseudorandom `Int` value from `Int.MinValue`
+   *   (inclusive) to `Int.MaxValue` (inclusive)
    */
   inline def int(): Int =
     mixedNextLong().toInt
@@ -288,7 +287,7 @@ trait RandomOps:
    *   a uniformly distributed pseudorandom `Float` from `low` (inclusive) to
    *   `high` (exclusive)
    */
-  def float(low: Float, high: Float): Double =
+  def float(low: Float, high: Float): Float =
     if high <= low then
       throw IllegalArgumentException(s"float: illegal range [$low,$high)")
     low + mixedNextFloat() * (high - low)
@@ -413,7 +412,7 @@ trait RandomOps:
    *   a uniformly distributed pseudorandom `Float` from `low` (inclusive) to
    *   `high` (exclusive)
    */
-  def uniform(low: Float, high: Float): Double =
+  def uniform(low: Float, high: Float): Float =
     if high <= low then
       throw IllegalArgumentException(s"uniform: illegal range [$low,$high)")
     low + mixedNextFloat() * (high - low)
@@ -479,11 +478,14 @@ trait RandomOps:
   /**
    * Returns a random `Int` value with Geometric distribution.
    *
+   * This uses the "number of trials until (and including) the first success"
+   * convention: values are in {1, 2, 3, ...} and the mean is `1/p`.
+   *
    * @param p
-   *   success probability.
+   *   success probability. Must be in [0.0, 1.0].
    * @return
-   *   A random `Int` value. Geometric (with success probability of p)
-   *   distribution.
+   *   A random `Int` value drawn from the Geometric distribution with
+   *   success probability `p`. The expected value (mean) is `1/p`.
    */
   def geometric(p: Double): Int =
     if p < 0.0 || p > 1.0 then

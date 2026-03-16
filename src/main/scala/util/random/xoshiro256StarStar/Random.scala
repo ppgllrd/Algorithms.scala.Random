@@ -140,6 +140,17 @@ class Random(private var _seed: Long) extends util.random.RandomOps:
   final protected def mixedNextDouble(): Double =
     (mixedNextLong() >>> 11) * Random.DOUBLE_UNIT
 
+  /** Returns a uniformly distributed pseudorandom `Double` value in range
+    * [0.0,1.0) using a fast bit-manipulation technique.
+    *
+    * This method is slightly faster than [[nextDouble]] by avoiding a
+    * multiplication, at the cost of one fewer bit of precision in the
+    * mantissa (52 bits instead of 53).
+    *
+    * @return
+    *   a uniformly distributed pseudorandom `Double` from 0.0 (inclusive) to
+    *   1.0 (exclusive)
+    */
   final def nextDoubleFast(): Double =
     java.lang.Double.longBitsToDouble(0x3ffL << 52 | mixedNextLong() >>> 12) - 1.0
 
