@@ -220,7 +220,7 @@ class RandomSuite extends FunSuite:
 
   test("bernoulli(p) frequency is close to p") {
     val rnd       = Random(0L)
-    val n         = 200_000
+    val n         = 1_000_000
     val p         = 0.3
     val trueCount = (1 to n).count(_ => rnd.bernoulli(p))
     val freq      = trueCount.toDouble / n
@@ -231,39 +231,39 @@ class RandomSuite extends FunSuite:
 
   test("gaussian() has mean close to 0 and stddev close to 1") {
     val rnd     = Random(0L)
-    val n       = 200_000
+    val n       = 1_000_000
     val samples = Array.fill(n)(rnd.gaussian())
     val mean    = samples.sum / n
     val variance =
       samples.map(x => (x - mean) * (x - mean)).sum / n
     assert(math.abs(mean) < 0.01, s"gaussian() mean $mean not close to 0")
-    assert(math.abs(math.sqrt(variance) - 1.0) < 0.01,
+    assert(math.abs(math.sqrt(variance) - 1.0) < 0.005,
       s"gaussian() stddev ${math.sqrt(variance)} not close to 1")
   }
 
   test("gaussian(mu, sigma) has mean close to mu and stddev close to sigma") {
     val rnd     = Random(0L)
-    val n       = 200_000
+    val n       = 1_000_000
     val mu      = 5.0
     val sigma   = 2.0
     val samples = Array.fill(n)(rnd.gaussian(mu, sigma))
     val mean    = samples.sum / n
     val variance =
       samples.map(x => (x - mean) * (x - mean)).sum / n
-    assert(math.abs(mean - mu) < 0.02, s"gaussian($mu,$sigma) mean $mean not close to $mu")
-    assert(math.abs(math.sqrt(variance) - sigma) < 0.02,
+    assert(math.abs(mean - mu) < 0.005, s"gaussian($mu,$sigma) mean $mean not close to $mu")
+    assert(math.abs(math.sqrt(variance) - sigma) < 0.005,
       s"gaussian($mu,$sigma) stddev ${math.sqrt(variance)} not close to $sigma")
   }
 
   test("gaussianBoxMuller() has mean close to 0 and stddev close to 1") {
     val rnd     = Random(0L)
-    val n       = 200_000
+    val n       = 1_000_000
     val samples = Array.fill(n)(rnd.gaussianBoxMuller())
     val mean    = samples.sum / n
     val variance =
       samples.map(x => (x - mean) * (x - mean)).sum / n
-    assert(math.abs(mean) < 0.01, s"gaussianBoxMuller() mean $mean not close to 0")
-    assert(math.abs(math.sqrt(variance) - 1.0) < 0.01,
+    assert(math.abs(mean) < 0.005, s"gaussianBoxMuller() mean $mean not close to 0")
+    assert(math.abs(math.sqrt(variance) - 1.0) < 0.005,
       s"gaussianBoxMuller() stddev ${math.sqrt(variance)} not close to 1")
   }
 
@@ -272,9 +272,9 @@ class RandomSuite extends FunSuite:
   test("exp(lambda) has mean close to 1/lambda") {
     val rnd    = Random(0L)
     val lambda = 2.0
-    val n      = 200_000
+    val n      = 1_000_000
     val mean   = Array.fill(n)(rnd.exp(lambda)).sum / n
-    assert(math.abs(mean - 1.0 / lambda) < 0.01,
+    assert(math.abs(mean - 1.0 / lambda) < 0.005,
       s"exp($lambda) mean $mean not close to ${1.0 / lambda}")
   }
 
@@ -296,9 +296,9 @@ class RandomSuite extends FunSuite:
   test("poisson(lambda) has mean close to lambda") {
     val rnd    = Random(0L)
     val lambda = 5.0
-    val n      = 200_000
+    val n      = 1_000_000
     val mean   = Array.fill(n)(rnd.poisson(lambda).toDouble).sum / n
-    assert(math.abs(mean - lambda) < 0.05,
+    assert(math.abs(mean - lambda) < 0.005,
       s"poisson($lambda) mean $mean not close to $lambda")
   }
 
@@ -339,10 +339,10 @@ class RandomSuite extends FunSuite:
   test("geometric(p) has mean close to 1/p") {
     val rnd  = Random(0L)
     val p    = 0.25
-    val n    = 200_000
+    val n    = 1_000_000
     val mean = Array.fill(n)(rnd.geometric(p).toDouble).sum / n
     // geometric() uses the "trials until first success" convention: mean = 1/p
-    assert(math.abs(mean - 1.0 / p) < 0.1,
+    assert(math.abs(mean - 1.0 / p) < 0.005,
       s"geometric($p) mean $mean not close to ${1.0 / p}")
   }
 
@@ -368,19 +368,19 @@ class RandomSuite extends FunSuite:
   test("nextInt(n) passes chi-squared uniformity test") {
     val rnd    = Random(0L)
     val k      = 10
-    val n      = 100_000
+    val n      = 1_000_000
     val counts = new Array[Int](k)
     for _ <- 1 to n do counts(rnd.nextInt(k)) += 1
     val stat = chiSquaredUniform(counts, n)
     // Critical value for chi-squared with df=9 at p=0.001 is ~27.88.
-    // A well-behaved PRNG should comfortably fall below this.
+    // A well-behaved PRNG should comfortably fall below this 30.0
     assert(stat < 30.0, s"Chi-squared statistic $stat exceeds critical value (poor uniformity)")
   }
 
   test("nextDouble() passes chi-squared uniformity test (bucket analysis)") {
     val rnd    = Random(0L)
     val k      = 10
-    val n      = 100_000
+    val n      = 1_000_000
     val counts = new Array[Int](k)
     for _ <- 1 to n do
       val bucket = (rnd.nextDouble() * k).toInt.min(k - 1)
@@ -404,11 +404,11 @@ class RandomSuite extends FunSuite:
     val rnd    = Random(0L)
     val freq   = Array(1, 3) // ratio 1:3
     val gen    = rnd.discrete(freq)
-    val n      = 100_000
+    val n      = 1_000_000
     val counts = new Array[Int](2)
     for _ <- 1 to n do counts(gen()) += 1
     val ratio = counts(1).toDouble / counts(0).toDouble
-    assert(math.abs(ratio - 3.0) < 0.1,
+    assert(math.abs(ratio - 3.0) < 0.005,
       s"discrete([1,3]) ratio $ratio not close to 3.0")
   }
 
